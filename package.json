@@ -9,7 +9,7 @@
     "test": "ng test",
     "dev:ssr": "ng build --watch & nodemon dist/fastkart-admin/server/server.mjs",
     "serve:ssr": "node dist/fastkart-admin/server/server.mjs",
-    "build:ssr": "ng build",
+    "build:ssr": "ng build && ng build --configuration production --ssr",
     "prerender": "ng run fastkart-admin:prerender"
   },
   "private": true,

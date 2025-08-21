@@ -1,15 +1,22 @@
 {
-   "version": 2,
-   "builds": [
-      {
-         "src": "dist/fastkart-admin/server/server.mjs",
-         "use": "@vercel/node"
-      }
-   ],
-   "routes": [
-      {
-         "src": "/(.*)",
-         "dest": "dist/fastkart-admin/server/server.mjs"
-      }
-   ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/fastkart-admin/server/server.mjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "dist/fastkart-admin/server/server.mjs"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "dist/fastkart-admin/server/server.mjs"
+    }
+  ],
+  "buildCommand": "npm run build:ssr",
+  "outputDirectory": "dist/fastkart-admin",
+  "installCommand": "npm install"
 }
