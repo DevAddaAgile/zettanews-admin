@@ -4,7 +4,7 @@
 
 export const environment = {
     production: true,
-    URL: 'http://157.230.36.182:3004/api'
+    URL: 'https://api.zetta-news.zetta-demo.space/api'
 };
   
 /*
