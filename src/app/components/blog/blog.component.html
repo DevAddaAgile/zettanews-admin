@@ -1,0 +1,36 @@
+<!-- <app-page-wrapper> -->
+<div class="p-2">
+  <!-- Fixed Title and Controls Section -->
+  <div class="fixed-controls">
+    <div class="title-header option-title">
+      <div class="d-flex align-items-center">
+        <h5>{{ 'all_blogs' | translate }}</h5>
+      </div>
+      <div class="right-options">
+          <button class="btn btn-primary" routerLink="/blog/create">
+            + {{ 'create' | translate }}
+            </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-table">
+        <div class="card-header">
+          <h2 class="card-title text-bold text-black ">{{ 'all_blogs' | translate }}</h2>
+        </div>
+        <div class="card-body">
+          <!-- Table will be rendered here with frozen headers -->
+          <app-table 
+            [tableConfig]="tableConfig" 
+            
+            (tableChanged)="onTableChange($event)"
+            (action)="onActionClicked($event)">
+          </app-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </app-page-wrapper> -->

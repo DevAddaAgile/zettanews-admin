@@ -1,0 +1,224 @@
+// Table container with relative positioning for frozen header
+:host {
+  display: block;
+  position: relative;
+}
+
+// Frozen header section - stays fixed at the top
+.frozen-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+  border-bottom: 2px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  .frozen-header-table {
+    margin-bottom: 0;
+    
+    thead {
+      background: #f8f9fa;
+      
+      th {
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
+        padding: 12px 8px;
+        vertical-align: middle;
+        white-space: nowrap;
+        
+        &.sm-width {
+          width: 60px;
+          min-width: 60px;
+        }
+        
+        &.actions-width {
+          width: 120px;
+          min-width: 120px;
+        }
+        
+        &.cursor-pointer {
+          cursor: pointer;
+          
+          &:hover {
+            background-color: #e9ecef;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Scrollable data section
+.scrollable-data {
+  max-height: 400px; // Adjust this value based on your needs
+  overflow-y: auto;
+  overflow-x: auto;
+  
+  .datatable-wrapper {
+    position: relative;
+    
+    .table-loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      z-index: 5;
+    }
+    
+    .scrollable-table {
+      margin-bottom: 0;
+      
+      tbody {
+        tr {
+          &:hover {
+            background-color: #f8f9fa;
+          }
+          
+          td {
+            border-bottom: 1px solid #dee2e6;
+            padding: 12px 8px;
+            vertical-align: middle;
+            white-space: nowrap;
+            
+            &.sm-width {
+              width: 60px;
+              min-width: 60px;
+            }
+            
+            &.actions-width {
+              width: 120px;
+              min-width: 120px;
+            }
+            
+            &.cursor-pointer {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Ensure proper alignment between frozen header and scrollable data
+.frozen-header-table,
+.scrollable-table {
+  width: 100%;
+  table-layout: fixed;
+  
+  th, td {
+    &:first-child {
+      padding-left: 16px;
+    }
+    
+    &:last-child {
+      padding-right: 16px;
+    }
+  }
+}
+
+// Show box controls styling
+.show-box {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #dee2e6;
+  
+  .selection-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    
+    label {
+      margin-bottom: 0;
+      font-weight: 500;
+      color: #495057;
+    }
+    
+    select, input {
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      padding: 6px 12px;
+      
+      &:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+    }
+    
+    .btn {
+      border-radius: 4px;
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  }
+  
+  .datepicker-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    
+    .custom-dt-picker {
+      .form-control {
+        min-width: 120px;
+      }
+    }
+  }
+  
+  .table-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    label {
+      margin-bottom: 0;
+      font-weight: 500;
+      color: #495057;
+    }
+    
+    input {
+      min-width: 200px;
+    }
+  }
+}
+
+// Pagination styling
+.custom-pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .show-box {
+    .selection-box,
+    .datepicker-wrap,
+    .table-search {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+    
+    .custom-dt-picker {
+      .form-control {
+        min-width: auto;
+      }
+    }
+    
+    .table-search input {
+      min-width: auto;
+    }
+  }
+  
+  .scrollable-data {
+    max-height: 300px;
+  }
+}

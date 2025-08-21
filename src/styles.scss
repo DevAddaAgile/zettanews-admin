@@ -1,0 +1,79 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../public/assets/scss/app.scss";
+
+/* CSS Variables for theme customization */
+:root {
+  --theme-color: #0d6efd;
+}
+
+/* Apply theme color to primary elements */
+.btn-primary, .bg-primary {
+  background-color: var(--theme-color) !important;
+  border-color: var(--theme-color) !important;
+}
+
+.text-primary {
+  color: var(--theme-color) !important;
+}
+
+.border-primary {
+  border-color: var(--theme-color) !important;
+}
+
+/* Sidebar background color */
+.sidebar-wrapper,
+.page-sidebar,
+.sidebar-main,
+.left-header {
+  background-color: var(--theme-color) !important;
+}
+
+/* Logo wrapper background */
+.logo-wrapper,
+.header-logo-wrapper {
+  background-color: var(--theme-color) !important;
+}
+
+/* Search bar button */
+.search-btn,
+.btn-search,
+.input-group-text,
+.search-button,
+.header-search,
+.search-full .search-box .search-suggestion .search-btn,
+.search-full .search-box .form-control + .btn,
+.search-box .btn,
+app-search .btn,
+app-search button {
+  background-color: var(--theme-color) !important;
+  border-color: var(--theme-color) !important;
+}
+
+/* Make all logo images white */
+img[alt*="logo"], 
+img[src*="logo"], 
+.header-logo-wrapper img,
+.log-in-box img {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .float-start {
+  float: right !important;
+}
+
+[dir="rtl"] .float-end {
+  float: left !important;
+}
+
+[dir="rtl"] .text-start {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-end {
+  text-align: left !important;
+}

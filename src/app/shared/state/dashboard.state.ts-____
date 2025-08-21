@@ -1,0 +1,61 @@
+import { Injectable } from "@angular/core";
+import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { tap } from "rxjs";
+import { GetStatisticsCount, GetRevenueChart } from "../action/dashboard.action";
+import { StatisticsCount, RevenueChart } from "./../interface/dashboard.interface";
+import { DashboardService } from "../services/dashboard.service";
+
+export class DashboardStateModel {
+  statistics: StatisticsCount | null;
+  revenueChart: RevenueChart | null
+}
+
+@State<DashboardStateModel>({
+  name: "dashboard",
+  defaults: {
+    statistics: null,
+    revenueChart: null
+  },
+})
+@Injectable()
+export class DashboardState {
+
+  constructor(private dashboardService: DashboardService) {}
+
+  @Selector()
+  static statistics(state: DashboardStateModel) {
+    return state.statistics;
+  }
+
+  @Selector()
+  static revenueChart(state: DashboardStateModel) {
+    return state.revenueChart;
+  }
+
+  @Action(GetStatisticsCount)
+  getStatisticsCount(ctx: StateContext<DashboardStateModel>) {
+    // Disable API call to prevent JSON parsing errors
+    ctx.patchState({
+      statistics: {
+        total_revenue: 0,
+        total_orders: 0,
+        total_products: 0,
+        total_users: 0
+      }
+    });
+  }
+
+  @Action(GetRevenueChart)
+  getRevenueChart(ctx: StateContext<DashboardStateModel>) {
+    // Disable API call to prevent JSON parsing errors
+    ctx.patchState({
+      revenueChart: {
+        chart: {
+          series: [],
+          categories: []
+        }
+      }
+    });
+  }
+
+}

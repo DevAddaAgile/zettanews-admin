@@ -1,0 +1,15 @@
+{
+   "version": 2,
+   "builds": [
+      {
+         "src": "dist/fastkart-admin/server/server.mjs",
+         "use": "@vercel/node"
+      }
+   ],
+   "routes": [
+      {
+         "src": "/(.*)",
+         "dest": "dist/fastkart-admin/server/server.mjs"
+      }
+   ]
+}

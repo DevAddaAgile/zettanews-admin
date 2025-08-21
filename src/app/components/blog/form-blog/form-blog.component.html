@@ -1,0 +1,260 @@
+<!-- <form class="theme-form theme-form-2 mega-form" [formGroup]="form" (ngSubmit)="submit()">
+  <app-form-fields [label]="'title'" [for]="'title'" [required]="true">
+    <input class="form-control" type="text" placeholder="{{ 'enter_blog_title' | translate }}" name="title" formControlName="title">
+    @if (form.controls['title'].touched && form.controls['title'].errors?.['required']) {
+      <div class="invalid-feedback">
+        {{ 'title_is_required' | translate }}
+      </div>
+    }
+  </app-form-fields>
+  <app-form-fields [label]="'description'" [for]="'desc'" [required]="false">
+    <textarea class="form-control" placeholder="{{ 'enter_blog_description' | translate }}" formControlName="description" rows="3"></textarea>
+  </app-form-fields>
+  <app-form-fields [label]="'content'" [for]="'content'" [required]="false">
+    <div class="custom-editor">
+      @if(isBrowser) {
+        <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+        <ngx-editor [editor]="editor" [ngModel]="html" [disabled]="false" [placeholder]="'Type here...'" formControlName="content"></ngx-editor>
+      }
+    </div>
+  </app-form-fields>
+  <app-form-fields [label]="'thumbnail'" [for]="'image'" [required]="true">
+    <app-image-upload
+      [multipleImage]="false"
+      [image]="(blog$ | async)?.blog_thumbnail"
+      [helpText]="'*Upload image size 1500x700px recommended'"
+      (selectedFiles)="selectThumbnail($event)">
+    </app-image-upload>
+    @if (form.controls['blog_thumbnail_id'].touched && form.controls['blog_thumbnail_id'].errors?.['required']) {
+      <div class="invalid-feedback">
+        {{ 'thumbnail_is_required' | translate }}
+      </div>
+    }
+  </app-form-fields>
+  <app-form-fields [label]="'select_categories'" [for]="'category'" [required]="true">
+    <app-advanced-dropdown
+      [position]="'top'"
+      [selectedOption]="selectedCategories"
+      [options]="(category$ | async )?.data?.length ? (category$ | async )?.data : []"
+      [subArrayKey]="'subcategories'"
+      (selectedItem)="selectCategoryItem($event)">
+    </app-advanced-dropdown>
+    @if (form.controls['categories'].touched && form.controls['categories'].errors?.['required']) {
+      <div class="invalid-feedback">
+        {{ 'select_category_is_required' | translate }}
+      </div>
+    }
+  </app-form-fields>
+  <app-form-fields [label]="'select_tags'" [for]="'tag'" [required]="false">
+    <app-advanced-dropdown
+      [position]="'top'"
+      [selectedOption]="selectedTags"
+      [options]="(tag$ | async )?.data?.length ? (tag$ | async )?.data : []"
+      (selectedItem)="selectTagItem($event)">
+    </app-advanced-dropdown>
+  </app-form-fields>
+  <app-form-fields [label]="'featured'" [for]="'is_featured'" [required]="false">
+    <div class="form-check form-switch ps-0">
+      <label class="switch">
+        <input type="checkbox" id="is_featured" formControlName="is_featured">
+        <span class="switch-state"></span>
+      </label>
+    </div>
+  </app-form-fields>
+  <app-form-fields [label]="'sticky'" [for]="'is_sticky'" [required]="false">
+    <div class="form-check form-switch ps-0">
+      <label class="switch">
+        <input type="checkbox" id="is_sticky" formControlName="is_sticky">
+        <span class="switch-state"></span>
+      </label>
+    </div>
+  </app-form-fields>
+  <app-form-fields [label]="'meta_title'" [for]="'meta_title'" [required]="false">
+    <input class="form-control" type="text" placeholder="{{ 'enter_meta_title' | translate }}" formControlName="meta_title">
+  </app-form-fields>
+  <app-form-fields [label]="'meta_description'" [for]="'meta_description'" [required]="false">
+    <textarea class="form-control" placeholder="{{ 'enter_meta_description' | translate }}" formControlName="meta_description" rows="3"></textarea>
+  </app-form-fields>
+  <app-form-fields [label]="'meta_image'" [for]="'meta_image'" [required]="false">
+    <app-image-upload
+      [multipleImage]="false"
+      [image]="(blog$ | async)?.blog_meta_image"
+      (selectedFiles)="selectMetaImage($event)">
+    </app-image-upload>
+  </app-form-fields>
+  <app-form-fields [label]="'status'" [for]="'status'" [required]="false">
+    <div class="form-check form-switch ps-0">
+      <label class="switch">
+        <input type="checkbox" id="status" formControlName="status">
+        <span class="switch-state"></span>
+      </label>
+    </div>
+  </app-form-fields>
+  <app-button [id]="'blog_btn'">
+    {{ (type == 'create' ? 'save_blog' : 'update_blog') | translate }}
+  </app-button>
+</form> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form class="theme-form theme-form-2 mega-form" [formGroup]="form" (ngSubmit)="submit()">
+
+  <!-- Blog Title -->
+  <app-form-fields [label]="'title'" [for]="'title'" [required]="true">
+    <input class="form-control" type="text"
+           placeholder="{{ 'enter_blog_title' | translate }}"
+           formControlName="title">
+    <div class="invalid-feedback" *ngIf="form.controls['title'].touched && form.controls['title'].errors?.['required']">
+      {{ 'title_is_required' | translate }}
+    </div>
+  </app-form-fields>
+
+  <!-- Blog Slug -->
+  <app-form-fields [label]="'slug'" [for]="'slug'" [required]="false">
+    <input class="form-control" type="text"
+           placeholder="{{ 'enter_blog_slug' | translate }}"
+           formControlName="slug">
+    <small class="text-muted">Auto-generated from title if left empty</small>
+  </app-form-fields>
+
+  <!-- Blog Description -->
+  <app-form-fields [label]="'description'" [for]="'desc'" [required]="true">
+    <textarea class="form-control" placeholder="{{ 'enter_blog_description' | translate }}"
+              formControlName="description" rows="3"></textarea>
+    <div class="invalid-feedback" *ngIf="form.controls['description'].touched && form.controls['description'].errors?.['required']">
+      {{ 'description_is_required' | translate }}
+    </div>
+  </app-form-fields>
+
+  <!-- Blog Content -->
+  <app-form-fields [label]="'content'" [for]="'content'" [required]="false">
+    <div class="ngx-editor-wrapper" *ngIf="isBrowser && editor">
+      <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+      <ngx-editor 
+        [editor]="editor" 
+        formControlName="content"
+        placeholder="Enter blog content..."
+        style="min-height: 500px;">
+      </ngx-editor>
+    </div>
+    <textarea *ngIf="!isBrowser || !editor" 
+              class="form-control" 
+              formControlName="content"
+              placeholder="Enter blog content..."
+              rows="10"
+              style="min-height: 300px;">
+    </textarea>
+  </app-form-fields>
+
+  <!-- Blog Thumbnail -->
+  <app-form-fields [label]="'thumbnail'" [for]="'thumbnail'" [required]="false">
+    <input class="form-control" type="file" 
+           accept="image/*"
+           (change)="onThumbnailSelect($event)">
+    <small class="text-muted">*Max dimensions: 1500x700px, Max size: 2MB</small>
+    <div *ngIf="thumbnailPreview" class="mt-2">
+      <img [src]="thumbnailPreview" alt="Thumbnail preview" style="max-width: 200px; height: auto;">
+    </div>
+  </app-form-fields>
+
+  <!-- Categories -->
+  <app-form-fields [label]="'select_categories'" [for]="'category'" [required]="true">
+    <app-advanced-dropdown
+      [position]="'top'"
+      [selectedOption]="selectedCategories"
+      [options]="categories"
+      [subArrayKey]="'subcategories'"
+      (selectedItem)="selectCategoryItem($event)">
+    </app-advanced-dropdown>
+    <div class="invalid-feedback" *ngIf="form.controls['categories'].touched && form.controls['categories'].errors?.['required']">
+      {{ 'select_category_is_required' | translate }}
+    </div>
+  </app-form-fields>
+
+  <!-- Tags -->
+  <app-form-fields [label]="'select_tags'" [for]="'tag'" [required]="false">
+    <app-advanced-dropdown
+      [position]="'top'"
+      [selectedOption]="selectedTags"
+      [options]="tags"
+      (selectedItem)="selectTagItem($event)">
+    </app-advanced-dropdown>
+  </app-form-fields>
+
+  <!-- Featured -->
+  <app-form-fields [label]="'featured'" [for]="'featured'" [required]="false">
+    <label class="switch">
+      <input type="checkbox" formControlName="featured">
+      <span class="switch-state"></span>
+    </label>
+  </app-form-fields>
+
+  <!-- Sticky -->
+  <app-form-fields [label]="'sticky'" [for]="'sticky'" [required]="false">
+    <label class="switch">
+      <input type="checkbox" formControlName="sticky">
+      <span class="switch-state"></span>
+    </label>
+  </app-form-fields>
+
+  <!-- Meta Title -->
+  <app-form-fields [label]="'meta_title'" [for]="'metaTitle'" [required]="false">
+    <input class="form-control" type="text"
+           placeholder="{{ 'enter_meta_title' | translate }}"
+           formControlName="metaTitle">
+  </app-form-fields>
+
+  <!-- Meta Description -->
+  <app-form-fields [label]="'meta_description'" [for]="'metaDescription'" [required]="false">
+    <textarea class="form-control" placeholder="{{ 'enter_meta_description' | translate }}"
+              formControlName="metaDescription" rows="3"></textarea>
+  </app-form-fields>
+
+  <!-- Meta Image -->
+  <app-form-fields [label]="'meta_image'" [for]="'meta_image'" [required]="false">
+    <input class="form-control" type="file" 
+           accept="image/*"
+           (change)="onMetaImageSelect($event)">
+    <small class="text-muted">*Max dimensions: 1200x630px, Max size: 1MB</small>
+    <div *ngIf="metaImagePreview" class="mt-2">
+      <img [src]="metaImagePreview" alt="Meta image preview" style="max-width: 200px; height: auto;">
+    </div>
+  </app-form-fields>
+
+  <!-- Status -->
+  <app-form-fields [label]="'status'" [for]="'published'" [required]="false">
+    <label class="switch">
+      <input type="checkbox" formControlName="published">
+      <span class="switch-state"></span>
+    </label>
+  </app-form-fields>
+
+  <!-- Action Buttons -->
+  <div class="d-flex gap-2">
+    <app-button [id]="'blog_btn'">
+      {{ (type == 'create' ? 'save_blog' : 'update_blog') | translate }}
+    </app-button>
+    
+    <button *ngIf="type === 'edit'" 
+            type="button" 
+            class="btn btn-danger mt-4"
+            (click)="deleteBlog()">
+      {{ 'delete_blog' | translate }}
+    </button>
+  </div>
+
+</form>

@@ -1,0 +1,205 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>Blog Management</h3>
+        <button class="btn btn-primary" (click)="createNewBlog()" *ngIf="!showForm">
+          Create New Blog
+        </button>
+      </div>
+    </div>
+    
+    <!-- Blog Form -->
+    <div class="col-12" *ngIf="showForm">
+      <div class="card">
+        <div class="card-header">
+          <h5>{{ isEditing ? 'Edit Blog' : 'Create Blog22223333' }}</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="blogTitle" class="form-label">Title</label>
+              <input 
+                type="text" 
+                id="blogTitle" 
+                class="form-control" 
+                formControlName="title" 
+                placeholder="Enter blog title"
+              >
+              <div class="invalid-feedback d-block" *ngIf="blogForm.get('title')?.invalid && blogForm.get('title')?.touched">
+                Title is required and must be at least 5 characters.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="blogExcerpt" class="form-label">Excerpt</label>
+              <textarea 
+                id="blogExcerpt" 
+                class="form-control" 
+                formControlName="excerpt" 
+                placeholder="Enter blog excerpt (short summary)"
+                rows="2"
+              ></textarea>
+              <div class="invalid-feedback d-block" *ngIf="blogForm.get('excerpt')?.invalid && blogForm.get('excerpt')?.touched">
+                Excerpt is required and must be between 10-200 characters.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="blogContent" class="form-label">Content</label>
+              <textarea 
+                id="blogContent" 
+                class="form-control" 
+                formControlName="content" 
+                placeholder="Enter blog content"
+                rows="10"
+              ></textarea>
+              <div class="invalid-feedback d-block" *ngIf="blogForm.get('content')?.invalid && blogForm.get('content')?.touched">
+                Content is required and must be at least 20 characters.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="featuredImage" class="form-label">Featured Image URL</label>
+              <input 
+                type="text" 
+                id="featuredImage" 
+                class="form-control" 
+                formControlName="featuredImage" 
+                placeholder="Enter image URL"
+              >
+            </div>
+            
+            <div class="mb-3">
+              <label for="author" class="form-label">Author</label>
+              <input 
+                type="text" 
+                id="author" 
+                class="form-control" 
+                formControlName="author" 
+                placeholder="Enter author name"
+              >
+            </div>
+            
+            <div class="mb-3">
+              <label for="tags" class="form-label">Tags</label>
+              <select 
+                id="tags" 
+                class="form-select" 
+                formControlName="tags" 
+                multiple
+              >
+                <option *ngIf="tagsLoading" disabled>Loading tags...</option>
+                <option *ngFor="let tag of tags" [value]="tag._id">{{ tag.name }}</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="categories" class="form-label">Categories</label>
+              <select 
+                id="categories" 
+                class="form-select" 
+                formControlName="categories" 
+                multiple
+              >
+                <option *ngIf="categoriesLoading" disabled>Loading categories...</option>
+                <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+              </select>
+            </div>
+            
+            <div class="mb-3 form-check">
+              <input 
+                type="checkbox" 
+                id="blogPublished" 
+                class="form-check-input" 
+                formControlName="published"
+              >
+              <label for="blogPublished" class="form-check-label">Publish Blog</label>
+            </div>
+            
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="blogForm.invalid">
+                {{ isEditing ? 'Update' : 'Create' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Blogs Table -->
+    <div class="col-12 mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Blogs List</h5>
+        </div>
+        <div class="card-body">
+          <!-- Loading Indicator -->
+          <div class="text-center" *ngIf="loading">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          
+          <!-- No Blogs Message -->
+          <div class="alert alert-info" *ngIf="!loading && blogs.length === 0">
+            No blogs found. Create your first blog using the button above.
+          </div>
+          
+          <!-- Blogs Table -->
+          <div class="table-responsive" *ngIf="!loading && blogs.length > 0">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Categories</th>
+                  <th>Tags</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let blog of blogs">
+                  <td>{{ blog.title }}</td>
+                  <td>{{ blog.author }}</td>
+                  <td>
+                    <span *ngFor="let category of blog.categories" class="badge bg-secondary me-1">{{ category.name }}</span>
+                    <span *ngIf="!blog.categories || blog.categories.length === 0">-</span>
+                  </td>
+                  <td>
+                    <span *ngFor="let tag of blog.tags" class="badge bg-primary me-1">{{ tag.name }}</span>
+                    <span *ngIf="!blog.tags || blog.tags.length === 0">-</span>
+                  </td>
+                  <td>
+                    <span class="badge" [ngClass]="blog.published ? 'bg-success' : 'bg-warning'">
+                      {{ blog.published ? 'Published' : 'Draft' }}
+                    </span>
+                  </td>
+                  <td>{{ blog.createdAt | date }}</td>
+                  <td>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-sm btn-primary" (click)="editBlog(blog)">
+                        Edit
+                      </button>
+                      <button class="btn btn-sm" [ngClass]="blog.published ? 'btn-warning' : 'btn-success'" (click)="togglePublishStatus(blog)">
+                        {{ blog.published ? 'Unpublish' : 'Publish' }}
+                      </button>
+                      <button class="btn btn-sm btn-danger" (click)="deleteBlog(blog._id || '')">
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

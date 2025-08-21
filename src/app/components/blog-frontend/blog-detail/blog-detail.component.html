@@ -1,0 +1,74 @@
+<div class="blog-header py-5 text-center bg-light mb-4">
+  <div class="container">
+    <h1 class="display-4">Fastkart Blog</h1>
+    <p class="lead">Discover the latest trends, tips, and insights</p>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <!-- Loading Indicator -->
+  <div class="text-center" *ngIf="loading">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  
+  <!-- Error Message -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+    <div class="mt-3">
+      <a routerLink="/blog" class="btn btn-primary">Back to Blogs</a>
+    </div>
+  </div>
+  
+  <!-- Blog Content -->
+  <div *ngIf="blog && !loading && !error">
+    <div class="row">
+      <div class="col-12">
+        <!-- Back Button -->
+        <a routerLink="/blog" class="btn btn-outline-secondary mb-3">
+          <i class="fa fa-arrow-left"></i> Back to Blogs
+        </a>
+        
+        <!-- Blog Header -->
+        <div class="blog-header mb-4">
+          <h1 class="display-4">{{ blog.title }}</h1>
+          
+          <!-- Categories -->
+          <div class="mb-2">
+            <span *ngFor="let category of blog.categories" class="badge bg-secondary me-1">{{ category.name }}</span>
+          </div>
+          
+          <div class="blog-meta text-muted mb-3">
+            <span>Published: {{ blog.publishedAt | date:'medium' }}</span>
+            <span class="mx-2">|</span>
+            <span>By: {{ blog.author }}</span>
+          </div>
+        </div>
+        
+        <!-- Featured Image -->
+        <div class="blog-featured-image mb-4" *ngIf="blog.featuredImage">
+          <img [src]="blog.featuredImage" class="img-fluid rounded" alt="{{ blog.title }}">
+        </div>
+        
+        <!-- Blog Content -->
+        <div class="blog-content mb-4">
+          <div [innerHTML]="blog.content"></div>
+        </div>
+        
+        <!-- Tags -->
+        <div class="blog-tags mb-4">
+          <h5>Tags:</h5>
+          <div>
+            <span *ngFor="let tag of blog.tags" class="badge bg-primary me-1">{{ tag.name }}</span>
+          </div>
+        </div>
+        
+        <!-- Admin Actions -->
+        <div class="blog-admin-actions mb-4">
+          <a routerLink="/admin/blog-admin/blogs" class="btn btn-outline-primary">Manage Blogs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

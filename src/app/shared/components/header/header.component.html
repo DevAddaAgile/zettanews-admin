@@ -1,0 +1,69 @@
+<div class="header-wrapper m-0" [class.skeleton-header]="navServices.sidebarLoading">
+  <div class="header-logo-wrapper p-0">
+    <div class="toggle-sidebar" checked="checked">
+      <i (click)="sidebarToggle()" class="ri-apps-line status_toggle middle sidebar-toggle"></i>
+      @if ((setting$ | async)?.general?.dark_logo_image) {
+        <a [routerLink]="['/blog']"
+          >
+          <img [src]="(setting$ | async)?.general?.dark_logo_image?.original_url" class="img-fluid" alt="header-logo" style="filter: brightness(0) invert(1);">
+        </a>
+      } @else {
+        <a [routerLink]="['/blog']">
+          <h2 class="text-white">
+            {{(setting$ | async)?.general?.site_title ? (setting$ | async)?.general?.site_title.split(' ')[0] : 'Logo Here'}}
+          </h2>
+        </a>
+      }
+    </div>
+  </div>
+  <app-search></app-search>
+  <div class="nav-right right-header p-0">
+    <!-- <div class="header-btns d-none d-lg-flex">
+      <a [routerLink]="['/product/create']" class="btn btn-outline" *hasPermission="'product.create'">
+        {{ 'add_product' | translate }}
+      </a>
+      <a [routerLink]="['/order/create']" class="btn btn-animation" *hasPermission="'order.create'">
+        {{ 'add_order' | translate }}
+      </a>
+    </div> -->
+    <ul class="nav-menus">
+      <li>
+        <span class="header-search" (click)="clickHeaderOnMobile()">
+          <i class="ri-search-line"></i>
+        </span>
+      </li>
+      <li>
+        <app-languages></app-languages>
+      </li>
+      <li>
+        <div class="profile-nav onhover-dropdown p-0">
+          <button class="btn dropdown-toggle p-0" (click)="toggleColorPicker()">
+            <i class="ri-palette-line"></i>
+          </button>
+          <div class="profile-dropdown onhover-show-div" [class.active]="showColorPicker">
+            <div class="p-2">
+              <div class="mb-2">
+                <label class="form-label">Theme Color:</label>
+                <input type="color" class="form-control form-control-color" [value]="currentColor" (change)="onColorChange($event)" style="width: 100px; height: 40px;">
+              </div>
+              <div>
+                <label class="form-label">Direction:</label>
+                <div class="btn-group w-100">
+                  <button class="btn btn-sm btn-outline-primary" [class.active]="direction === 'ltr'" (click)="changeDirection('ltr')">LTR</button>
+                  <button class="btn btn-sm btn-outline-primary" [class.active]="direction === 'rtl'" (click)="changeDirection('rtl')">RTL</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <app-notification></app-notification>
+      </li>
+      <li>
+        <app-mode></app-mode>
+      </li>
+      <app-profile></app-profile>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+.ngx-editor-wrapper {
+  ::ng-deep .NgxEditor {
+    min-height: 500px;
+  }
+  
+  ::ng-deep .ProseMirror {
+    min-height: 500px;
+  }
+}

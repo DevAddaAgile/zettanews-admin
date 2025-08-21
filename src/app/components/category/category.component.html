@@ -1,0 +1,263 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Header Section -->
+    <div class="col-12 mb-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h3 class="mb-2 mb-md-0">Category Management</h3>
+        <button class="btn btn-primary" (click)="createNewCategory()" *ngIf="!showForm">
+       + Create New Category
+        </button>
+      </div>
+    </div>
+    
+    <!-- Success/Error Messages -->
+    <div class="col-12" *ngIf="successMessage || errorMessage">
+      <div class="alert alert-success alert-dismissible fade show" *ngIf="successMessage">
+        <i class="fas fa-check-circle me-2"></i>{{ successMessage }}
+        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+      </div>
+      <div class="alert alert-danger alert-dismissible fade show" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle me-2"></i>{{ errorMessage }}
+        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+      </div>
+    </div>
+    
+    <!-- Category Form -->
+    <div class="col-12" *ngIf="showForm">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-{{ isEditing ? 'edit' : 'plus' }} me-2"></i>
+            {{ isEditing ? 'Edit Category' : 'Create Category' }}
+          </h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categoryName" class="form-label">Name <span class="text-danger">*</span></label>
+                  <input 
+                    type="text" 
+                    id="categoryName" 
+                    class="form-control" 
+                    [class.is-invalid]="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched"
+                    formControlName="name" 
+                    placeholder="Enter category name"
+                    (input)="onNameChange($event)"
+                  >
+                  <div class="invalid-feedback" *ngIf="getFieldError('name')">
+                    {{ getFieldError('name') }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categorySlug" class="form-label">Slug</label>
+                  <input 
+                    type="text" 
+                    id="categorySlug" 
+                    class="form-control" 
+                    formControlName="slug" 
+                    placeholder="Enter category slug"
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categoryDescription" class="form-label">Description</label>
+                  <textarea 
+                    id="categoryDescription" 
+                    class="form-control" 
+                    formControlName="description" 
+                    placeholder="Enter category description"
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categoryStatus" class="form-label">Status</label>
+                  <select 
+                    id="categoryStatus" 
+                    class="form-control" 
+                    formControlName="status"
+                  >
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex gap-2 justify-content-end">
+              <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-{{ isEditing ? 'save' : 'plus' }} me-2"></i>
+                {{ isEditing ? 'Update' : 'Create' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Categories List -->
+    <div class="col-12 mt-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light">
+          <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="d-flex align-items-center">
+              <h5 class="mb-2 mb-md-0">
+                <i class="fas fa-list me-2"></i>Categories List
+              </h5>
+              <span class="badge bg-primary ms-2 mb-3">{{ totalItems }}</span>
+            </div>
+           
+            <!-- Search Bar -->
+            <div class="search-container" style="min-width: 250px;">
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Search categories..."
+                  [value]="searchTerm"
+                  (input)="onSearchChange($any($event.target).value)"
+                >
+                <button class="btn btn-outline-secondary" type="button" (click)="onSearchChange('')" *ngIf="searchTerm">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <!-- Loading State -->
+          <div class="text-center py-5" *ngIf="loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading categories...</p>
+          </div>
+          
+          <!-- Empty State -->
+          <div class="text-center py-5" *ngIf="!loading && filteredCategories.length === 0 && !searchTerm">
+            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No categories found</h5>
+            <p class="text-muted">Create your first category using the button above.</p>
+          </div>
+          
+          <!-- No Search Results -->
+          <div class="text-center py-5" *ngIf="!loading && filteredCategories.length === 0 && searchTerm">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No results found</h5>
+            <p class="text-muted">No categories match your search "{{ searchTerm }}"</p>
+            <button class="btn btn-outline-primary" (click)="onSearchChange('')">
+              <i class="fas fa-times me-2"></i>Clear Search
+            </button>
+          </div>
+          
+          <!-- Categories Table -->
+          <div *ngIf="!loading && filteredCategories.length > 0">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">
+                      <i class="fas fa-tag me-2"></i>Name
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-link me-2"></i>Slug
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-align-left me-2"></i>Description
+                    </th>
+                    <th scope="col" class="text-center">
+                      <i class="fas fa-cogs me-2"></i>Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let category of paginatedCategories; trackBy: trackByFn">
+                    <td>
+                      <strong>{{ category.name }}</strong>
+                    </td>
+                    <td>
+                      <code class="text-muted">{{ category.slug }}</code>
+                    </td>
+                    <td>
+                      <span *ngIf="category.description; else noDescription">
+                        {{ category.description | slice:0:100 }}
+                        <span *ngIf="category.description.length > 100">...</span>
+                      </span>
+                      <ng-template #noDescription>
+                        <em class="text-muted">No description</em>
+                      </ng-template>
+                    </td>
+                    <td class="text-center">
+                      <div class="btn-group" role="group">
+                        <button 
+                          class="btn btn-sm btn-outline-primary" 
+                          (click)="editCategory(category)"
+                          title="Edit Category"
+                          style="margin-right: 5px; padding: 5px 10px;"
+                        >
+                          <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button 
+                          class="btn btn-sm btn-outline-danger" 
+                          (click)="deleteCategory(category._id || category.id)"
+                          title="Delete Category"
+                          style="padding: 5px 10px;"
+                        >
+                          <i class="fas fa-trash"></i> Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            <nav *ngIf="totalPages > 1" class="mt-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-muted">
+                  Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+                  {{ Math.min(currentPage * itemsPerPage, totalItems) }} of {{ totalItems }} entries
+                </div>
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item" [class.disabled]="currentPage === 1">
+                    <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                  </li>
+                  
+                  <li class="page-item" 
+                      *ngFor="let page of [].constructor(totalPages); let i = index" 
+                      [class.active]="currentPage === i + 1">
+                    <button class="page-link" (click)="changePage(i + 1)">
+                      {{ i + 1 }}
+                    </button>
+                  </li>
+                  
+                  <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

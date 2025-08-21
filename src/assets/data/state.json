@@ -1,0 +1,12 @@
+[
+  {"id": 1, "name": "California", "country_id": 1},
+  {"id": 2, "name": "New York", "country_id": 1},
+  {"id": 3, "name": "Texas", "country_id": 1},
+  {"id": 4, "name": "Florida", "country_id": 1},
+  {"id": 5, "name": "Ontario", "country_id": 2},
+  {"id": 6, "name": "Quebec", "country_id": 2},
+  {"id": 7, "name": "England", "country_id": 3},
+  {"id": 8, "name": "Scotland", "country_id": 3},
+  {"id": 9, "name": "Bavaria", "country_id": 4},
+  {"id": 10, "name": "Berlin", "country_id": 4}
+]

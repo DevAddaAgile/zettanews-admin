@@ -1,0 +1,23 @@
+{
+  "values": {
+    "site_name": "Fastkart Blog",
+    "site_title": "Fastkart Blog System",
+    "site_description": "A simple blog system built with Angular and Express",
+    "site_logo": "assets/images/logo.png",
+    "site_favicon": "assets/images/favicon.ico",
+    "site_email": "info@fastkart.com",
+    "site_phone": "+1 123 456 7890",
+    "site_address": "123 Street, City, Country",
+    "social_links": {
+      "facebook": "https://facebook.com",
+      "twitter": "https://twitter.com",
+      "instagram": "https://instagram.com",
+      "linkedin": "https://linkedin.com"
+    },
+    "meta": {
+      "meta_title": "Fastkart Blog",
+      "meta_description": "A simple blog system built with Angular and Express",
+      "meta_keywords": "blog, angular, express, mongodb"
+    }
+  }
+}

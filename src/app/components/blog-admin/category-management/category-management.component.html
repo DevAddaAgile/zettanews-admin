@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>Category Management222</h3>
+        <button class="btn btn-primary" (click)="createNewCategory()" *ngIf="!showForm">
+          Create New Category
+        </button>
+      </div>
+    </div>
+    
+    <!-- Category Form -->
+    <div class="col-12" *ngIf="showForm">
+      <div class="card">
+        <div class="card-header">
+          <h5>{{ isEditing ? 'Edit Category' : 'Create Category' }}</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="categoryName" class="form-label">Name</label>
+              <input 
+                type="text" 
+                id="categoryName" 
+                class="form-control" 
+                formControlName="name" 
+                placeholder="Enter category name"
+              >
+              <div class="invalid-feedback d-block" *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+                Name is required and must be at least 2 characters.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="categoryDescription" class="form-label">Description</label>
+              <textarea 
+                id="categoryDescription" 
+                class="form-control" 
+                formControlName="description" 
+                placeholder="Enter category description (optional)"
+                rows="3"
+              ></textarea>
+            </div>
+            
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">
+                {{ isEditing ? 'Update' : 'Create' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Categories Table -->
+    <div class="col-12 mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Categories List</h5>
+        </div>
+        <div class="card-body">
+          <!-- Loading Indicator -->
+          <div class="text-center" *ngIf="loading">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          
+          <!-- No Categories Message -->
+          <div class="alert alert-info" *ngIf="!loading && categories.length === 0">
+            No categories found. Create your first category using the button above.
+          </div>
+          
+          <!-- Categories Table -->
+          <div class="table-responsive" *ngIf="!loading && categories.length > 0">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Slug</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let category of categories">
+                  <td>{{ category.name }}</td>
+                  <td>{{ category.slug }}</td>
+                  <td>{{ category.description || '-' }}</td>
+                  <td>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-sm btn-primary" (click)="editCategory(category)">
+                        Edit
+                      </button>
+                      <button class="btn btn-sm btn-danger" (click)="deleteCategory(category._id || '')">
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

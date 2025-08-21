@@ -1,0 +1,71 @@
+<div class="blog-header py-5 text-center bg-light mb-4">
+  <div class="container">
+    <h1 class="display-4">Fastkart Blog</h1>
+    <p class="lead">Discover the latest trends, tips, and insights</p>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <!-- Blog List -->
+      <div class="row">
+        <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
+          <h2>Latest Blogs</h2>
+          <a routerLink="/admin/blog-admin/blogs" class="btn btn-outline-primary">Manage Blogs</a>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div class="col-12 text-center" *ngIf="loading">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        
+        <!-- No Blogs Message -->
+        <div class="col-12" *ngIf="!loading && blogs.length === 0">
+          <div class="alert alert-info">
+            No blogs found.
+          </div>
+        </div>
+        
+        <!-- Blog Cards -->
+        <div class="col-md-4 mb-4" *ngFor="let blog of blogs">
+          <div class="card h-100 shadow-sm">
+            <!-- Featured Image -->
+            <img *ngIf="blog.featuredImage" [src]="blog.featuredImage" class="card-img-top" alt="{{ blog.title }}" style="height: 200px; object-fit: cover;">
+            
+            <div class="card-body">
+              <!-- Categories -->
+              <div class="mb-2">
+                <span *ngFor="let category of blog.categories" class="badge bg-secondary me-1">{{ category.name }}</span>
+              </div>
+              
+              <!-- Title -->
+              <h5 class="card-title">{{ blog.title }}</h5>
+              
+              <!-- Excerpt -->
+              <p class="card-text">{{ blog.excerpt }}</p>
+              
+              <!-- Tags -->
+              <div class="mb-3">
+                <span *ngFor="let tag of blog.tags" class="badge bg-primary me-1">{{ tag.name }}</span>
+              </div>
+              
+              <!-- Read More Button -->
+              <a [routerLink]="['/blog/blog', blog.slug]" class="btn btn-primary">Read More</a>
+            </div>
+            
+            <div class="card-footer text-muted">
+              <!-- Published Date -->
+              <small>Published: {{ blog.publishedAt | date }}</small>
+              
+              <!-- Author -->
+              <small class="float-end">By: {{ blog.author }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
