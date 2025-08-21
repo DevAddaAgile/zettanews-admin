@@ -4,7 +4,7 @@
 
 export const environment = {
     production: true,
-    URL: 'https://api.zetta-news.zetta-demo.space/api'
+    URL: 'https://backend-mpyg.onrender.com/api'
 };
   
 /*
