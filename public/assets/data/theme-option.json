@@ -2,8 +2,8 @@
     "id": 1,
     "options": {
       "general": {
-        "site_title": "FastKart Marketplace: Where Vendors Shine Together",
-        "site_tagline": "Shop Unique, Sell Exceptional – FastKart's Multi-Vendor Universe.",
+        "site_title": "Zetta News Admin",
+        "site_tagline": "Zetta News Admin",
         "cart_style": "cart_sidebar",
         "back_to_top_enable": true,
         "language_direction": "ltr",
@@ -63,7 +63,7 @@
         "page_top_bar_enable": true,
         "top_bar_content": [
           {
-            "content": " Get the latest NEws about Zetta-ERP"
+            "content": " Get the latest News about Zetta News"
           }
           // {
           //   "content": "Your must-have item is calling – Buy Now!"
@@ -198,7 +198,7 @@
       "seller": {
         "about": {
           "status": true,
-          "title": "Become a seller on Fastkart...",
+          "title": "Become a seller on Zetta News...",
           "description": "Ready to showcase your products to the world? Join our dynamic marketplace and become a seller at our thriving multipurpose store. With a diverse customer base and a wide range of categories including groceries, fashion, electronics, and more, you'll have the perfect platform to reach a vast audience.\n\nAs a seller, you'll benefit from our user-friendly interface, seamless payment processing, and dedicated support to ensure your products shine. Whether you're a local artisan or a growing brand, our store provides the visibility and tools you need to succeed.\n\nTap into our established customer traffic, set up your shop with ease, and let your products take center stage. Join us in creating a shopping experience that caters to every need and taste. Your journey to success starts here – become a seller at our multipurpose store today!",
           "image_url": "assets/images/data/banner-2.jpg"
         },
@@ -227,7 +227,7 @@
         },
         "steps": {
           "status": true,
-          "title": "Doing Business on Fastkart is really easy",
+          "title": "Doing Business on Zetta News is really easy",
           "step_1": {
             "title": "List Your Products & Get Support Provider",
             "description": "Elevate your business by listing your products with us. Experience dedicated support services for your growth."
@@ -244,7 +244,7 @@
         "start_selling": {
           "status": true,
           "title": "Start Selling",
-          "description": "Fastkart marketplace is India's leading platform for selling online. Be it a manufacturer, vendor or supplier, simply sell your products online on Fastkart and become a top ecommerce player with minimum investment. Through a team of experts offering exclusive seller workshops, training, seller support and convenient seller portal, Fastkart focuses on educating and empowering sellers across India. Selling on Fastkart.com is easy and absolutely free. All you need is to register, list your catalogue and start selling your products."
+          "description": "Zetta News is India's leading platform for selling online. Be it a manufacturer, vendor or supplier, simply sell your products online on Zetta News and become a top ecommerce player with minimum investment. Through a team of experts offering exclusive seller workshops, training, seller support and convenient seller portal, Zetta News focuses on educating and empowering sellers across India. Selling on Zetta News.com is easy and absolutely free. All you need is to register, list your catalogue and start selling your products."
         },
         "store_layout": "basic_store",
         "store_details": "basic_store_details"
@@ -278,11 +278,11 @@
         "back_button_text": "Back To Home"
       },
       "seo": {
-        "meta_tags": "FastKart Marketplace: Where Vendors Shine Together",
+        "meta_tags": "Zetta News: Where Vendors Shine Together",
         "meta_title": "Online Marketplace, Vendor Collaboration, E-commerce Platform",
-        "meta_description": "Discover FastKart Marketplace – a vibrant online platform where vendors unite to showcase their products, creating a diverse shopping experience. Explore a wide range of offerings and connect with sellers on a single platform.",
-        "og_title": "FastKart Marketplace: Uniting Vendors for Shopping Excellence",
-        "og_description": "Experience a unique shopping journey at FastKart Marketplace, where vendors collaborate to provide a vast array of products. Explore, shop, and connect in one convenient destination.",
+        "meta_description": "Discover Zetta News – a vibrant online platform where vendors unite to showcase their products, creating a diverse shopping experience. Explore a wide range of offerings and connect with sellers on a single platform.",
+        "og_title": "Zetta News: Uniting Vendors for Shopping Excellence",
+        "og_description": "Experience a unique shopping journey at Zetta News, where vendors collaborate to provide a vast array of products. Explore, shop, and connect in one convenient destination.",
         "og_image_id": 4,
         "og_image": {
           "id": 4,

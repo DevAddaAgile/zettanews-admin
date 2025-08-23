@@ -65,14 +65,17 @@
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="categoryDescription" class="form-label">Description</label>
-                  <textarea 
-                    id="categoryDescription" 
+                  <label for="categoryParent" class="form-label">Parent Category</label>
+                  <select 
+                    id="categoryParent" 
                     class="form-control" 
-                    formControlName="description" 
-                    placeholder="Enter category description"
-                    rows="3"
-                  ></textarea>
+                    formControlName="parent"
+                  >
+                    <option value="">No Parent (Root Category)</option>
+                    <option *ngFor="let category of availableParentCategories" [value]="category._id || category.id">
+                      {{ category.name }}
+                    </option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-6">
@@ -86,6 +89,66 @@
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                   </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categoryDescription" class="form-label">Description</label>
+                  <textarea 
+                    id="categoryDescription" 
+                    class="form-control" 
+                    formControlName="description" 
+                    placeholder="Enter category description"
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categoryIcon" class="form-label">Icon</label>
+                  <input 
+                    type="file" 
+                    id="categoryIcon" 
+                    class="form-control" 
+                    accept="image/*"
+                    (change)="onIconSelect($event)"
+                  >
+                  <small class="form-text text-muted">Recommended size: 64x64px, max 5MB. Supports PNG, JPG, GIF.</small>
+                  <div class="file-upload-container">
+                    <div class="file-preview" *ngIf="iconPreview">
+                      <img [src]="iconPreview" alt="Icon Preview" class="img-thumbnail table-image" style="max-width: 100px; max-height: 100px;">
+                      <div class="mt-1">
+                        <small class="text-muted">{{ selectedIcon?.filename }}</small>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-outline-danger remove-btn" (click)="removeIcon()">
+                        <i class="fas fa-times"></i> Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="categoryImage" class="form-label">Image</label>
+                  <input 
+                    type="file" 
+                    id="categoryImage" 
+                    class="form-control" 
+                    accept="image/*"
+                    (change)="onImageSelect($event)"
+                  >
+                  <small class="form-text text-muted">Recommended size: 400x300px, max 5MB. Supports PNG, JPG, GIF.</small>
+                  <div class="file-upload-container">
+                    <div class="file-preview" *ngIf="imagePreview">
+                      <img [src]="imagePreview" alt="Image Preview" class="img-thumbnail table-image" style="max-width: 150px; max-height: 150px;">
+                      <div class="mt-1">
+                        <small class="text-muted">{{ selectedImage?.filename }}</small>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-outline-danger remove-btn" (click)="removeImage()">
+                        <i class="fas fa-times"></i> Remove
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,6 +177,16 @@
                 <i class="fas fa-list me-2"></i>Categories List
               </h5>
               <span class="badge bg-primary ms-2 mb-3">{{ totalItems }}</span>
+              <span class="badge bg-info ms-2 mb-3">{{ totalSubcategories }} subcategories</span>
+              <button 
+                type="button" 
+                class="btn btn-sm btn-outline-secondary ms-2"
+                (click)="toggleAllCategories()"
+                title="Expand/Collapse all categories"
+              >
+                <i class="fas fa-expand-arrows-alt me-1"></i>
+                {{ expandedCategories.size > 0 ? 'Collapse All' : 'Expand All' }}
+              </button>
             </div>
            
             <!-- Search Bar -->
@@ -178,49 +251,157 @@
                     <th scope="col">
                       <i class="fas fa-align-left me-2"></i>Description
                     </th>
+                    <th scope="col">
+                      <i class="fas fa-sitemap me-2"></i>Parent
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-images me-2"></i>Icon & Image
+                    </th>
                     <th scope="col" class="text-center">
                       <i class="fas fa-cogs me-2"></i>Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let category of paginatedCategories; trackBy: trackByFn">
-                    <td>
-                      <strong>{{ category.name }}</strong>
-                    </td>
-                    <td>
-                      <code class="text-muted">{{ category.slug }}</code>
-                    </td>
-                    <td>
-                      <span *ngIf="category.description; else noDescription">
-                        {{ category.description | slice:0:100 }}
-                        <span *ngIf="category.description.length > 100">...</span>
-                      </span>
-                      <ng-template #noDescription>
-                        <em class="text-muted">No description</em>
-                      </ng-template>
-                    </td>
-                    <td class="text-center">
-                      <div class="btn-group" role="group">
-                        <button 
-                          class="btn btn-sm btn-outline-primary" 
-                          (click)="editCategory(category)"
-                          title="Edit Category"
-                          style="margin-right: 5px; padding: 5px 10px;"
-                        >
-                          <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button 
-                          class="btn btn-sm btn-outline-danger" 
-                          (click)="deleteCategory(category._id || category.id)"
-                          title="Delete Category"
-                          style="padding: 5px 10px;"
-                        >
-                          <i class="fas fa-trash"></i> Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  <!-- Root Categories -->
+                  <ng-container *ngFor="let category of paginatedCategories; trackBy: trackByFn">
+                    <!-- Root Category Row -->
+                    <tr class="root-category">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <button 
+                            *ngIf="hasSubcategories(category)"
+                            type="button" 
+                            class="btn btn-sm btn-link p-0 me-2"
+                            (click)="toggleCategoryExpansion((category._id || category.id || '').toString())"
+                            title="Toggle subcategories"
+                          >
+                            <i class="fas fa-chevron-{{ isCategoryExpanded((category._id || category.id || '').toString()) ? 'down' : 'right' }} text-muted"></i>
+                          </button>
+                          <i class="fas fa-folder text-warning me-2"></i>
+                          <strong>{{ category.name }}</strong>
+                          <span *ngIf="hasSubcategories(category)" 
+                                class="badge bg-info ms-2">{{ category.subcategories.length }} sub</span>
+                        </div>
+                      </td>
+                      <td>
+                        <code class="text-muted">{{ category.slug }}</code>
+                      </td>
+                      <td>
+                        <span *ngIf="category.description; else noDescription">
+                          {{ category.description | slice:0:100 }}
+                          <span *ngIf="category.description.length > 100">...</span>
+                        </span>
+                        <ng-template #noDescription>
+                          <em class="text-muted">No description</em>
+                        </ng-template>
+                      </td>
+                      <td>
+                        <span class="badge bg-secondary parent-badge">Root Category</span>
+                      </td>
+                      <td>
+                        <div class="d-flex gap-2">
+                          <div *ngIf="category.icon?.original_url" class="text-center">
+                            <img [src]="category.icon.original_url" alt="Icon" class="img-thumbnail table-image" style="max-width: 40px; max-height: 40px;">
+                            <small class="d-block text-muted">Icon</small>
+                          </div>
+                          <div *ngIf="category.image?.original_url" class="text-center">
+                            <img [src]="category.image.original_url" alt="Image" class="img-thumbnail table-image" style="max-width: 40px; max-height: 40px;">
+                            <small class="d-block text-muted">Image</small>
+                          </div>
+                          <div *ngIf="!category.icon?.original_url && !category.image?.original_url" class="text-muted">
+                            <small>No media</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <div class="btn-group" role="group">
+                          <button 
+                            class="btn btn-sm btn-outline-primary" 
+                            (click)="editCategory(category)"
+                            title="Edit Category"
+                            style="margin-right: 5px; padding: 5px 10px;"
+                          >
+                            <i class="fas fa-edit"></i> Edit
+                          </button>
+                          <button 
+                            class="btn btn-sm btn-outline-danger" 
+                            (click)="deleteCategory(category._id || category.id || '')"
+                            title="Delete Category"
+                            style="padding: 5px 10px;"
+                          >
+                            <i class="fas fa-trash"></i> Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    
+                    <!-- Subcategories -->
+                    <ng-container *ngFor="let subcategory of category.subcategories; trackBy: trackByFn">
+                      <tr class="subcategory" *ngIf="isCategoryExpanded((category._id || category.id || '').toString())">
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="tree-connector me-2">
+                              <div class="vertical-line"></div>
+                              <div class="horizontal-line"></div>
+                            </div>
+                            <i class="fas fa-file-alt text-muted me-2"></i>
+                            <span>{{ subcategory.name }}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <code class="text-muted">{{ subcategory.slug }}</code>
+                        </td>
+                        <td>
+                          <span *ngIf="subcategory.description; else noSubDescription">
+                            {{ subcategory.description | slice:0:100 }}
+                            <span *ngIf="subcategory.description.length > 100">...</span>
+                          </span>
+                          <ng-template #noSubDescription>
+                            <em class="text-muted">No description</em>
+                          </ng-template>
+                        </td>
+                        <td>
+                          <span class="badge bg-info parent-badge">{{ category.name }}</span>
+                        </td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <div *ngIf="subcategory.icon?.original_url" class="text-center">
+                              <img [src]="subcategory.icon.original_url" alt="Icon" class="img-thumbnail table-image" style="max-width: 40px; max-height: 40px;">
+                              <small class="d-block text-muted">Icon</small>
+                            </div>
+                            <div *ngIf="subcategory.image?.original_url" class="text-center">
+                              <img [src]="subcategory.image.original_url" alt="Image" class="img-thumbnail table-image" style="max-width: 40px; max-height: 40px;">
+                              <small class="d-block text-muted">Image</small>
+                            </div>
+                            <div *ngIf="!subcategory.icon?.original_url && !subcategory.image?.original_url" class="text-muted">
+                              <small>No media</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="btn-group" role="group">
+                            <button 
+                              class="btn btn-sm btn-outline-primary" 
+                              (click)="editCategory(subcategory)"
+                              title="Edit Subcategory"
+                              style="margin-right: 5px; padding: 5px 10px;"
+                            >
+                              <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button 
+                              class="btn btn-sm btn-outline-danger" 
+                              (click)="deleteCategory(subcategory._id || subcategory.id || '')"
+                              title="Delete Subcategory"
+                              style="padding: 5px 10px;"
+                            >
+                              <i class="fas fa-trash"></i> Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
