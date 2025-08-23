@@ -39,7 +39,8 @@ export class TagComponent implements OnInit {
   ) {
     this.tagForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
-      slug: ['']
+      slug: [''],
+      status: [1, Validators.required]
     });
   }
   
@@ -149,7 +150,8 @@ export class TagComponent implements OnInit {
     
     this.tagForm.patchValue({
       name: tag.name,
-      slug: tag.slug || ''
+      slug: tag.slug || '',
+      status: tag.status !== undefined ? tag.status : 1
     });
   }
   
@@ -174,12 +176,17 @@ export class TagComponent implements OnInit {
     this.isEditing = false;
     this.currentTagId = null;
     this.showForm = false;
-    this.tagForm.reset();
+    this.tagForm.reset({
+      name: '',
+      slug: '',
+      status: 1
+    });
   }
   
   createNewTag(): void {
     this.resetForm();
     this.showForm = true;
+    this.tagForm.patchValue({ status: 1 });
   }
   
   // Pagination methods

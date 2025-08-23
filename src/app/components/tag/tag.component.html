@@ -65,6 +65,26 @@
               </div>
             </div>
             
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="tagStatus" class="form-label">Publish Status <span class="text-danger">*</span></label>
+                  <select 
+                    id="tagStatus" 
+                    class="form-select" 
+                    [class.is-invalid]="tagForm.get('status')?.invalid && tagForm.get('status')?.touched"
+                    formControlName="status"
+                  >
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="getFieldError('status')">
+                    {{ getFieldError('status') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div class="d-flex gap-2 justify-content-end">
               <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
                 <i class="fas fa-times me-2"></i>Cancel
@@ -151,6 +171,9 @@
                       <i class="fas fa-link me-2"></i>Slug
                     </th>
                     <th scope="col" class="text-center">
+                      <i class="fas fa-toggle-on me-2"></i>Status
+                    </th>
+                    <th scope="col" class="text-center">
                       <i class="fas fa-cogs me-2"></i>Actions
                     </th>
                   </tr>
@@ -162,6 +185,16 @@
                     </td>
                     <td>
                       <code class="text-muted">{{ tag.slug }}</code>
+                    </td>
+                    <td class="text-center">
+                      <span 
+                        class="badge" 
+                        [class.bg-success]="tag.status === 1" 
+                        [class.bg-secondary]="tag.status === 0"
+                      >
+                        <i class="fas fa-{{ tag.status === 1 ? 'check-circle' : 'times-circle' }} me-1"></i>
+                        {{ tag.status === 1 ? 'Active' : 'Inactive' }}
+                      </span>
                     </td>
                     <td class="text-center">
                       <div class="btn-group" role="group">
