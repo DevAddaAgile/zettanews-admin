@@ -77,3 +77,139 @@ img[src*="logo"],
 [dir="rtl"] .text-end {
   text-align: left !important;
 }
+
+/* Additional Dark Theme Overrides with Maximum Specificity */
+body.dark-only {
+  /* Force table dark theme with maximum specificity */
+  .container-fluid .card .card-body .table-responsive .table,
+  .container-fluid .card .card-body .table,
+  .card .card-body .table-responsive .table,
+  .card .card-body .table,
+  .table-responsive .table,
+  .table,
+  table.table {
+    background-color: #1c2128 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    border-color: #1d3436 !important;
+    
+    /* Table header */
+    thead {
+      background-color: #1c2128 !important;
+      
+      &.table-light {
+        background-color: #1c2128 !important;
+      }
+      
+      th {
+        background-color: #1c2128 !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        border-color: #1d3436 !important;
+        border-bottom-color: #1d3436 !important;
+      }
+    }
+    
+    /* Table body */
+    tbody {
+      background-color: #1c2128 !important;
+      
+      tr {
+        background-color: #1c2128 !important;
+        border-color: #1d3436 !important;
+        
+        &:hover {
+          background-color: #1f232b !important;
+        }
+        
+        &:nth-child(even) {
+          background-color: #1c2128 !important;
+        }
+        
+        &:nth-child(odd) {
+          background-color: #1c2128 !important;
+        }
+        
+        td {
+          background-color: #1c2128 !important;
+          border-color: #1d3436 !important;
+          color: rgba(255, 255, 255, 0.6) !important;
+        }
+      }
+    }
+    
+    /* Table hover effects */
+    &.table-hover tbody tr:hover {
+      background-color: #1f232b !important;
+      
+      td {
+        background-color: #1f232b !important;
+      }
+    }
+  }
+  
+  /* Override Bootstrap table classes */
+  .table-light {
+    background-color: #1c2128 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    
+    th, td {
+      background-color: #1c2128 !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+      border-color: #1d3436 !important;
+    }
+  }
+  
+  .table-hover {
+    tbody tr:hover {
+      background-color: #1f232b !important;
+      
+      td {
+        background-color: #1f232b !important;
+      }
+    }
+  }
+  
+  /* Global table row overrides */
+  tr {
+    background-color: #1c2128 !important;
+    
+    &:nth-child(even) {
+      background-color: #1c2128 !important;
+    }
+    
+    &:nth-child(odd) {
+      background-color: #1c2128 !important;
+    }
+    
+    td, th {
+      background-color: inherit !important;
+      border-color: #1d3436 !important;
+    }
+  }
+  
+  /* Override any remaining light backgrounds */
+  .bg-light {
+    background-color: #1c2128 !important;
+  }
+  
+  /* Card dark theme */
+  .card {
+    background-color: #1c2128 !important;
+    border-color: #1d3436 !important;
+    
+    .card-header {
+      background-color: #1c2128 !important;
+      border-bottom-color: #1d3436 !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+      
+      &.bg-light {
+        background-color: #1c2128 !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+      }
+    }
+    
+    .card-body {
+      background-color: #1c2128 !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+  }
+}
