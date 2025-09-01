@@ -57,7 +57,6 @@ import { CommonModule } from '@angular/common';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
-
 export const appConfig: ApplicationConfig = {
   providers: [
     CurrencyPipe,
