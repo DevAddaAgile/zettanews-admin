@@ -6078,23 +6078,6 @@ body {
             }
           }
         }
-
-        .caller-img {
-          img {
-            opacity: 0.7;
-          }
-        }
-
-        .chat-box {
-          .chat-history {
-            .call-content {
-              > div {
-                background-color: rgba(0, 0, 0, 0.75);
-                background-blend-mode: overlay;
-              }
-            }
-          }
-        }
       }
 
       @media only screen and (max-width: 1199.98px) {
@@ -8425,3 +8408,5 @@ body {
     }
   }
 }
+
+

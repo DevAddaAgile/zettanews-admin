@@ -51,7 +51,7 @@
 
 // Scrollable data section
 .scrollable-data {
-  max-height: 400px; // Adjust this value based on your needs
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: auto;
   
@@ -83,6 +83,7 @@
             padding: 12px 8px;
             vertical-align: middle;
             white-space: nowrap;
+            color: #495057;
             
             &.sm-width {
               width: 60px;
@@ -144,11 +145,17 @@
       border: 1px solid #ced4da;
       border-radius: 4px;
       padding: 6px 12px;
+      background-color: white;
+      color: #495057;
       
       &:focus {
         border-color: #80bdff;
         outline: 0;
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+      
+      &::placeholder {
+        color: #6c757d;
       }
     }
     
@@ -156,6 +163,14 @@
       border-radius: 4px;
       font-size: 14px;
       padding: 6px 12px;
+      background-color: #6c757d;
+      border-color: #6c757d;
+      color: white;
+      
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
     }
   }
   
@@ -168,6 +183,24 @@
     .custom-dt-picker {
       .form-control {
         min-width: 120px;
+        background-color: white;
+        color: #495057;
+        border-color: #ced4da;
+        
+        &::placeholder {
+          color: #6c757d;
+        }
+      }
+      
+      .btn {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+        
+        &:hover {
+          background-color: #5a6268;
+          border-color: #545b62;
+        }
       }
     }
   }
@@ -185,6 +218,18 @@
     
     input {
       min-width: 200px;
+      background-color: white;
+      color: #495057;
+      border-color: #ced4da;
+      
+      &::placeholder {
+        color: #6c757d;
+      }
+      
+      &:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
     }
   }
 }
@@ -223,327 +268,3 @@
   }
 }
 
-// Dark theme support
-body.dark-only {
-  // More specific selectors for table component
-  app-table {
-    .frozen-header {
-      background: #1c2128 !important;
-      border-bottom: 2px solid #1d3436 !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-      
-      .frozen-header-table {
-        thead {
-          background: #1c2128 !important;
-          
-          th {
-            border-bottom: 2px solid #1d3436 !important;
-            color: rgba(255, 255, 255, 0.6) !important;
-            
-            &.cursor-pointer {
-              &:hover {
-                background-color: #2b2b2b !important;
-              }
-            }
-          }
-        }
-      }
-    }
-    
-    .scrollable-data {
-      .datatable-wrapper {
-        .table-loader {
-          background: rgba(28, 33, 40, 0.9) !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-        }
-        
-        .scrollable-table {
-          tbody {
-            tr {
-              &:hover {
-                background-color: #1f232b !important;
-              }
-              
-              td {
-                border-bottom: 1px solid #1d3436 !important;
-                color: rgba(255, 255, 255, 0.6) !important;
-              }
-            }
-          }
-        }
-      }
-    }
-    
-    .show-box {
-      background: #1c2128 !important;
-      border-bottom: 1px solid #1d3436 !important;
-      
-      .selection-box {
-        label {
-          color: rgba(255, 255, 255, 0.6) !important;
-        }
-        
-        select, input {
-          background-color: #0b141d !important;
-          border-color: #1d3436 !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-          
-          &:focus {
-            border-color: var(--theme-color) !important;
-            box-shadow: 0 0 0 0.2rem rgba(13, 164, 135, 0.25) !important;
-          }
-          
-          &::placeholder {
-            color: rgba(255, 255, 255, 0.3) !important;
-          }
-        }
-        
-        .btn {
-          background-color: #0b141d !important;
-          border-color: #1d3436 !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-          
-          &:hover {
-            background-color: #2b2b2b !important;
-            border-color: var(--theme-color) !important;
-          }
-        }
-      }
-      
-      .datepicker-wrap {
-        .custom-dt-picker {
-          .form-control {
-            background-color: #0b141d !important;
-            border-color: #1d3436 !important;
-            color: rgba(255, 255, 255, 0.6) !important;
-            
-            &::placeholder {
-              color: rgba(255, 255, 255, 0.3) !important;
-            }
-          }
-          
-          .btn {
-            background-color: #0b141d !important;
-            border-color: #1d3436 !important;
-            color: rgba(255, 255, 255, 0.6) !important;
-            
-            &:hover {
-              background-color: #2b2b2b !important;
-              border-color: var(--theme-color) !important;
-            }
-          }
-        }
-      }
-      
-      .table-search {
-        label {
-          color: rgba(255, 255, 255, 0.6) !important;
-        }
-        
-        input {
-          background-color: #0b141d !important;
-          border-color: #1d3436 !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-          
-          &::placeholder {
-            color: rgba(255, 255, 255, 0.3) !important;
-          }
-          
-          &:focus {
-            border-color: var(--theme-color) !important;
-            box-shadow: 0 0 0 0.2rem rgba(13, 164, 135, 0.25) !important;
-          }
-        }
-      }
-    }
-  }
-  
-  // Global dark theme for table elements (fallback)
-  .frozen-header {
-    background: #1c2128 !important;
-    border-bottom: 2px solid #1d3436 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-    
-    .frozen-header-table {
-      thead {
-        background: #1c2128 !important;
-        
-        th {
-          border-bottom: 2px solid #1d3436 !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-          
-          &.cursor-pointer {
-            &:hover {
-              background-color: #2b2b2b !important;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  .scrollable-data {
-    .datatable-wrapper {
-      .table-loader {
-        background: rgba(28, 33, 40, 0.9) !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-      }
-      
-      .scrollable-table {
-        tbody {
-          tr {
-            &:hover {
-              background-color: #1f232b !important;
-            }
-            
-            td {
-              border-bottom: 1px solid #1d3436 !important;
-              color: rgba(255, 255, 255, 0.6) !important;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  .show-box {
-    background: #1c2128 !important;
-    border-bottom: 1px solid #1d3436 !important;
-    
-    .selection-box {
-      label {
-        color: rgba(255, 255, 255, 0.6) !important;
-      }
-      
-      select, input {
-        background-color: #0b141d !important;
-        border-color: #1d3436 !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-        
-        &:focus {
-          border-color: var(--theme-color) !important;
-          box-shadow: 0 0 0 0.2rem rgba(13, 164, 135, 0.25) !important;
-        }
-        
-        &::placeholder {
-          color: rgba(255, 255, 255, 0.3) !important;
-        }
-      }
-      
-      .btn {
-        background-color: #0b141d !important;
-        border-color: #1d3436 !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-        
-        &:hover {
-          background-color: #2b2b2b !important;
-          border-color: var(--theme-color) !important;
-        }
-      }
-    }
-    
-    .datepicker-wrap {
-      .custom-dt-picker {
-        .form-control {
-          background-color: #0b141d !important;
-          border-color: #1d3436 !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-          
-          &::placeholder {
-            color: rgba(255, 255, 255, 0.3) !important;
-          }
-        }
-        
-        .btn {
-          background-color: #0b141d !important;
-          border-color: #1d3436 !important;
-          color: rgba(255, 255, 255, 0.6) !important;
-          
-          &:hover {
-            background-color: #2b2b2b !important;
-            border-color: var(--theme-color) !important;
-          }
-        }
-      }
-    }
-    
-    .table-search {
-      label {
-        color: rgba(255, 255, 255, 0.6) !important;
-      }
-      
-      input {
-        background-color: #0b141d !important;
-        border-color: #1d3436 !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-        
-        &::placeholder {
-          color: rgba(255, 255, 255, 0.3) !important;
-        }
-        
-        &:focus {
-          border-color: var(--theme-color) !important;
-          box-shadow: 0 0 0 0.2rem rgba(13, 164, 135, 0.25) !important;
-        }
-      }
-    }
-  }
-  
-  // Dark theme for table elements
-  .table {
-    color: rgba(255, 255, 255, 0.6) !important;
-    
-    &.theme-table {
-      background-color: #1c2128 !important;
-      
-      th, td {
-        border-color: #1d3436 !important;
-      }
-    }
-  }
-  
-  // Dark theme for form controls
-  .form-control {
-    background-color: #0b141d !important;
-    border-color: #1d3436 !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-    
-    &:focus {
-      background-color: #0b141d !important;
-      border-color: var(--theme-color) !important;
-      color: rgba(255, 255, 255, 0.8) !important;
-    }
-  }
-  
-  // Dark theme for buttons
-  .btn-outline {
-    border-color: #1d3436 !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-    
-    &:hover {
-      background-color: #2b2b2b !important;
-      border-color: var(--theme-color) !important;
-      color: rgba(255, 255, 255, 0.8) !important;
-    }
-  }
-  
-  // Dark theme for custom controls
-  .custom-control {
-    .custom-control-label {
-      color: rgba(255, 255, 255, 0.6) !important;
-    }
-  }
-  
-  // Dark theme for switch
-  .form-switch {
-    .form-check-input {
-      background-color: #0b141d !important;
-      border-color: #1d3436 !important;
-      
-      &:checked {
-        background-color: var(--theme-color) !important;
-        border-color: var(--theme-color) !important;
-      }
-    }
-  }
-}
